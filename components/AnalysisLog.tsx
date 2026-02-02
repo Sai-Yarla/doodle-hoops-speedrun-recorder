@@ -35,11 +35,13 @@ const AnalysisLog: React.FC<AnalysisLogProps> = ({ logs, onClear }) => {
           logs.map((log) => (
             <div 
               key={log.id} 
-              className={`flex items-start gap-4 p-3 rounded-md border ${
+              className={`flex items-start gap-4 p-3 rounded-md border transition-all ${
                 log.status === 'saved' 
                   ? 'bg-green-900/20 border-green-800' 
+                  : log.status === 'manual-review'
+                  ? 'bg-blue-900/20 border-blue-800'
                   : 'bg-red-900/10 border-red-900/30 opacity-70'
-              } transition-all`}
+              }`}
             >
               {/* Thumbnail */}
               <div className="w-24 h-16 bg-gray-900 rounded overflow-hidden flex-shrink-0 border border-gray-700 relative">
@@ -51,24 +53,31 @@ const AnalysisLog: React.FC<AnalysisLogProps> = ({ logs, onClear }) => {
                 {log.status === 'saved' && (
                   <div className="absolute top-1 right-1 w-2 h-2 bg-green-500 rounded-full shadow-[0_0_8px_rgba(34,197,94,0.8)]"></div>
                 )}
+                {log.status === 'manual-review' && (
+                  <div className="absolute top-1 right-1 w-2 h-2 bg-blue-500 rounded-full shadow-[0_0_8px_rgba(59,130,246,0.8)]"></div>
+                )}
               </div>
 
               {/* Content */}
               <div className="flex-1 min-w-0">
                 <div className="flex justify-between items-start">
                   <div>
-                    <h3 className={`font-bold ${log.status === 'saved' ? 'text-green-400' : 'text-gray-400'}`}>
-                      Score: {log.score ?? 'N/A'}
+                    <h3 className={`font-bold ${
+                      log.status === 'saved' ? 'text-green-400' : 
+                      log.status === 'manual-review' ? 'text-blue-300' : 'text-gray-400'
+                    }`}>
+                      Score: {log.score !== null ? log.score : '?'}
                     </h3>
                     <p className="text-xs text-gray-500">
                       {new Date(log.timestamp).toLocaleTimeString()}
                     </p>
                   </div>
                   <div className="text-right">
-                    <span className={`text-xs px-2 py-0.5 rounded-full uppercase font-bold tracking-wider ${
-                       log.status === 'saved' ? 'bg-green-900 text-green-300' : 'bg-gray-700 text-gray-400'
+                    <span className={`text-[10px] px-2 py-0.5 rounded-full uppercase font-bold tracking-wider ${
+                       log.status === 'saved' ? 'bg-green-900 text-green-300' : 
+                       log.status === 'manual-review' ? 'bg-blue-900 text-blue-300' : 'bg-gray-700 text-gray-400'
                     }`}>
-                      {log.status}
+                      {log.status === 'manual-review' ? 'Saved (Review)' : log.status}
                     </span>
                   </div>
                 </div>
@@ -77,7 +86,7 @@ const AnalysisLog: React.FC<AnalysisLogProps> = ({ logs, onClear }) => {
                 <div className="mt-2 flex gap-2">
                    {log.videoBlob && (
                      <button
-                       onClick={() => log.videoBlob && downloadBlob(log.videoBlob, `hoops-score-${log.score}-${log.id}.webm`)}
+                       onClick={() => log.videoBlob && downloadBlob(log.videoBlob, `hoops-${log.score !== null ? log.score : 'manual'}-${log.id}.webm`)}
                        className="text-xs flex items-center gap-1 text-blue-400 hover:text-blue-300 transition"
                      >
                        <svg xmlns="http://www.w3.org/2000/svg" className="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
