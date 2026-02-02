@@ -1,0 +1,8 @@
+{
+  "name": "Gemini Hoops Recorder",
+  "description": "An intelligent screen recorder for browser games that uses computer vision to automatically detect scores and filter high-score attempts.",
+  "requestFramePermissions": [
+    "display-capture",
+    "microphone"
+  ]
+}
