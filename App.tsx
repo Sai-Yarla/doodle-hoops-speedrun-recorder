@@ -27,7 +27,7 @@ const App: React.FC = () => {
             </p>
           </div>
           <div className="text-xs text-right text-gray-500">
-            <p>Target Score: <span className="text-white font-mono">39+</span></p>
+            <p>Target Score: <span className="text-white font-mono">45+</span></p>
             <p>Model: <span className="text-white font-mono">gemini-3-flash</span></p>
           </div>
         </div>

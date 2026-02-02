@@ -2,7 +2,7 @@ import React, { useState, useRef, useEffect, useCallback } from 'react';
 import { RecorderState, AttemptRecord } from '../types';
 import { analyzeGameFrame } from '../services/geminiService';
 
-const TARGET_SCORE = 39;
+const TARGET_SCORE = 45;
 const CHECK_INTERVAL_MS = 2000; // Check every 2 seconds
 
 interface RecorderProps {
